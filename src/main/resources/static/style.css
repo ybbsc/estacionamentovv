@@ -419,3 +419,97 @@ button:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow
     .record-row { align-items: stretch; flex-direction: column; }
     .small-button { width: 100%; }
 }
+
+
+/* ========================================
+   PARKHUB - REGISTRAR SAÍDA DE VEÍCULOS
+   ======================================== */
+
+.exit-list-card {
+    width: 100%;
+    max-width: 850px;
+}
+
+.exit-vehicle-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 26px;
+}
+
+.exit-vehicle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.exit-vehicle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+}
+
+.exit-vehicle-info strong {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.exit-vehicle-description {
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.exit-vehicle-action {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+.exit-register-button {
+    background: var(--accent);
+    color: #ffffff;
+    border: 1px solid var(--accent);
+    border-radius: 0;
+    padding: 13px 20px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.exit-register-button:hover {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+}
+
+.exit-footer {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 25px;
+}
+
+.exit-empty {
+    margin-top: 24px;
+}
+
+@media (max-width: 620px) {
+    .exit-vehicle-row {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .exit-vehicle-action {
+        width: 100%;
+    }
+
+    .exit-register-button {
+        width: 100%;
+    }
+}
+

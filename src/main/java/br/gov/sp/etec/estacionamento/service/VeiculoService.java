@@ -1,3 +1,4 @@
+
 package br.gov.sp.etec.estacionamento.service;
 
 import br.gov.sp.etec.estacionamento.entity.VeiculoEntity;
@@ -16,4 +17,6 @@ public interface VeiculoService {
     List<VeiculoEntity> listaVeiculos();
 
     VeiculoEntity buscaVeiculoPorId(Long id);
+
+    void registrarSaida(Long id);
 }

@@ -1,3 +1,4 @@
+
 package br.gov.sp.etec.estacionamento.controller;
 
 import br.gov.sp.etec.estacionamento.entity.VeiculoEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/veiculo")
 public class VeiculoController {
+
     private final VeiculoService service;
 
     public VeiculoController(VeiculoService service) {
@@ -27,7 +29,10 @@ public class VeiculoController {
     @PostMapping("/cadastrar")
     public String cadastrar(Veiculo v, Model m) {
         service.cadastrarVeiculo(v);
-        m.addAttribute("mensagem", "Entrada do veículo registrada com sucesso!");
+        m.addAttribute(
+                "mensagem",
+                "Entrada do veículo registrada com sucesso!"
+        );
         return "efetuar";
     }
 
@@ -39,31 +44,48 @@ public class VeiculoController {
     }
 
     @GetMapping("/registro/{id}")
-    public String registroVeiculo(@PathVariable Long id, Model model) {
+    public String registroVeiculo(
+            @PathVariable Long id,
+            Model model
+    ) {
         model.addAttribute("veiculo", service.buscaVeiculoPorId(id));
         return "registro-veiculo";
     }
 
     @PostMapping("/confirmar-saida")
-    public String confirmarSaida(@RequestParam Long id, Model model) {
+    public String confirmarSaida(
+            @RequestParam Long id,
+            Model model
+    ) {
         VeiculoEntity veiculo = service.buscaVeiculoPorId(id);
+
+        if (!veiculo.isEstacionado() || veiculo.getHoraSaida() != null) {
+            return "redirect:/veiculo/registrar-saida";
+        }
+
         model.addAttribute("veiculo", veiculo);
         model.addAttribute("horaSaida", LocalDateTime.now());
+
         return "confirmar-saida";
     }
 
     @PostMapping("/saida")
-    public String removerVeiculo(@RequestParam Long id, Model model) {
+    public String registrarSaidaConfirmada(
+            @RequestParam Long id,
+            Model model
+    ) {
         VeiculoEntity veiculo = service.buscaVeiculoPorId(id);
-        LocalDateTime horaSaida = LocalDateTime.now();
 
-        if (!service.deletarVeiculo(id)) {
-            model.addAttribute("mensagem", "Não foi possível registrar a saída do veículo.");
+        try {
+            service.registrarSaida(id);
+        } catch (IllegalStateException e) {
+            model.addAttribute("mensagem", e.getMessage());
             return "erro";
         }
 
         model.addAttribute("veiculo", veiculo);
-        model.addAttribute("horaSaida", horaSaida);
+        model.addAttribute("horaSaida", veiculo.getHoraSaida());
+
         return "saida-confirmada";
     }
 }
