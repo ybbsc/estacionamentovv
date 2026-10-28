@@ -74,18 +74,24 @@ public class VeiculoController {
             @RequestParam Long id,
             Model model
     ) {
-        VeiculoEntity veiculo = service.buscaVeiculoPorId(id);
-
         try {
             service.registrarSaida(id);
+
+            VeiculoEntity veiculo =
+                    service.buscaVeiculoPorId(id);
+
+            model.addAttribute("veiculo", veiculo);
+            model.addAttribute(
+                    "horaSaida",
+                    veiculo.getHoraSaida()
+            );
+
+            return "saida-confirmada";
+
         } catch (IllegalStateException e) {
             model.addAttribute("mensagem", e.getMessage());
             return "erro";
+
         }
-
-        model.addAttribute("veiculo", veiculo);
-        model.addAttribute("horaSaida", veiculo.getHoraSaida());
-
-        return "saida-confirmada";
     }
 }
